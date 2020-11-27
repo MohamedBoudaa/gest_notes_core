@@ -11,7 +11,8 @@ public class Niveau {
 	private String label;
 		
 	private int cycle;
-	
+
+	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=Module.class)
 	private List<Module> modules;
 
 }

@@ -59,7 +59,7 @@
 		<mapping class="com.bo.Note" />
 		<mapping class="com.bo.Matiere" />
 		<mapping class="com.bo.Module" />
-		
+		<mapping class="com.bo.Niveau" />
 
 
 
