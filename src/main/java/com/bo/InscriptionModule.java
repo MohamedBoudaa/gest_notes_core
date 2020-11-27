@@ -19,7 +19,6 @@ public class InscriptionModule {
 	@GeneratedValue(generator = "increment")
 	private Long id;
 	
-	
 	@ManyToOne  
 	@JoinColumn( name="idModule" )
 	private Module module;
