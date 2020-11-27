@@ -19,7 +19,7 @@ public class Module {
 	private Long id;
 	
 	private String title;
-	 
+	
 	private Niveau niveau;
 	
 	private int semester;
