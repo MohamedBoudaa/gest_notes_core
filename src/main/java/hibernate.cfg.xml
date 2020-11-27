@@ -60,7 +60,9 @@
 		<mapping class="com.bo.Matiere" />
 		<mapping class="com.bo.Module" />
 		<mapping class="com.bo.Niveau" />
-
+		<mapping class="com.bo.InscriptionAdministrative" />
+		<mapping class="com.bo.Etudiant" />
+		<mapping class="com.bo.InscriptionPedagogique" />
 
 
 

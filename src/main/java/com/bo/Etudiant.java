@@ -3,9 +3,11 @@ package com.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Etudiant implements Personne{
-	
-	
+
+	@Id
+	@GeneratedValue(generator="increment")
 	private Long id;
 	
 	private String firstname;
@@ -15,9 +17,11 @@ public class Etudiant implements Personne{
 	private String cne;
 	
 	private String cin;
-	
+
+	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionAdministrative.class)
 	private List<InscriptionAdministrative> listInscAdmin;
 
+	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionPedagogique.class)
 	private List<InscriptionPedagogique> listInscPedago;
 
 	

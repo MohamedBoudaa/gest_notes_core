@@ -29,6 +29,10 @@ public class InscriptionModule {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="idnote")
 	private Note note;
+	
+	@ManyToOne  
+	@JoinColumn( name="idInscPedago" )
+	private InscriptionPedagogique InscPedago;
 
 	private int ValidationModule;
 
