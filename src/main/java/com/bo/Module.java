@@ -19,7 +19,9 @@ public class Module {
 	private Long id;
 	
 	private String title;
-	
+
+	@ManyToOne
+    	@JoinColumn(name="idNiveau")
 	private Niveau niveau;
 	
 	private int semester;
