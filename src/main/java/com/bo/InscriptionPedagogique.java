@@ -10,18 +10,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+@Entity
 public class InscriptionPedagogique {
 
+	@Id
+	@GeneratedValue(generator="increment")
 	private Long id;
 	
 	private int year;
-
+	
 	@ManyToOne
-   	@JoinColumn(name="idEtudiant")
+    @JoinColumn(name="idEtudiant")
 	private Etudiant etudiant;
 	
 	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionModule.class)
 	private List<InscriptionModule> inscriptionModule;
+	
 	
 	
 }

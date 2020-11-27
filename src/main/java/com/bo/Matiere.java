@@ -18,7 +18,7 @@ public class Matiere {
 	private double coeff;
 	
 	@ManyToOne
-    @JoinColumn(name="idModule")
+    	@JoinColumn(name="idModule")
 	private Module module;
 	
 }
