@@ -15,8 +15,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.boudaa</groupId>
-			<artifactId>daogeneric</artifactId>
+			<groupId>com.ensah</groupId>
+			<artifactId>genericdao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
