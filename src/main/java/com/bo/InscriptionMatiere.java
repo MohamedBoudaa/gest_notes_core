@@ -27,4 +27,60 @@ public class InscriptionMatiere {
     @JoinColumn(name="idInscriptionModule")
 	private InscriptionModule inscriptionModule;
 
+	
+	public InscriptionMatiere() {
+		
+	}
+
+
+	public InscriptionMatiere(Matiere matiere, Note note, InscriptionModule inscriptionModule) {
+		super();
+		this.matiere = matiere;
+		this.note = note;
+		this.inscriptionModule = inscriptionModule;
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public Matiere getMatiere() {
+		return matiere;
+	}
+
+
+	public void setMatiere(Matiere matiere) {
+		this.matiere = matiere;
+	}
+
+
+	public Note getNote() {
+		return note;
+	}
+
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+
+	public InscriptionModule getInscriptionModule() {
+		return inscriptionModule;
+	}
+
+
+	public void setInscriptionModule(InscriptionModule inscriptionModule) {
+		this.inscriptionModule = inscriptionModule;
+	}
+	
+	
+	
+	
 }

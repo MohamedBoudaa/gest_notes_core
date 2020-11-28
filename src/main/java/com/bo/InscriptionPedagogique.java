@@ -25,6 +25,49 @@ public class InscriptionPedagogique {
 	
 	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionModule.class)
 	private List<InscriptionModule> inscriptionModule;
+
+	public InscriptionPedagogique() {
+		
+	}
+	
+	public InscriptionPedagogique(int year, Etudiant etudiant, List<InscriptionModule> inscriptionModule) {
+		super();
+		this.year = year;
+		this.etudiant = etudiant;
+		this.inscriptionModule = inscriptionModule;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
+	}
+
+	public List<InscriptionModule> getInscriptionModule() {
+		return inscriptionModule;
+	}
+
+	public void setInscriptionModule(List<InscriptionModule> inscriptionModule) {
+		this.inscriptionModule = inscriptionModule;
+	}
 	
 	
 	

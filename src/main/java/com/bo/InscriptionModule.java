@@ -35,5 +35,70 @@ public class InscriptionModule {
 	private InscriptionPedagogique InscPedago;
 
 	private int ValidationModule;
+	
+	
+	public InscriptionModule() {
+		
+	}
+
+	public InscriptionModule(Module module, List<InscriptionMatiere> inscriptionsMatieres, Note note,
+			InscriptionPedagogique inscPedago, int validationModule) {
+		super();
+		this.module = module;
+		this.inscriptionsMatieres = inscriptionsMatieres;
+		this.note = note;
+		InscPedago = inscPedago;
+		ValidationModule = validationModule;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Module getModule() {
+		return module;
+	}
+
+	public void setModule(Module module) {
+		this.module = module;
+	}
+
+	public List<InscriptionMatiere> getInscriptionsMatieres() {
+		return inscriptionsMatieres;
+	}
+
+	public void setInscriptionsMatieres(List<InscriptionMatiere> inscriptionsMatieres) {
+		this.inscriptionsMatieres = inscriptionsMatieres;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public InscriptionPedagogique getInscPedago() {
+		return InscPedago;
+	}
+
+	public void setInscPedago(InscriptionPedagogique inscPedago) {
+		InscPedago = inscPedago;
+	}
+
+	public int getValidationModule() {
+		return ValidationModule;
+	}
+
+	public void setValidationModule(int validationModule) {
+		ValidationModule = validationModule;
+	}
+	
+	
 
 }

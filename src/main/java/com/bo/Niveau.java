@@ -24,4 +24,61 @@ public class Niveau {
 	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=Module.class)
 	private List<Module> modules;
 
+	
+	public Niveau() {
+		
+	}
+
+
+	public Niveau(String title, String label, int cycle, List<Module> modules) {
+		super();
+		this.title = title;
+		this.label = label;
+		this.cycle = cycle;
+		this.modules = modules;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public String getLabel() {
+		return label;
+	}
+
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+
+	public int getCycle() {
+		return cycle;
+	}
+
+
+	public void setCycle(int cycle) {
+		this.cycle = cycle;
+	}
+
+
+	public List<Module> getModules() {
+		return modules;
+	}
+
+
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
+	
+	
+	
+	
 }

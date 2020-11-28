@@ -19,4 +19,59 @@ public class Note {
 	
 	private double noteFinal;
 	
+	
+	public Note() {
+		
+	}
+
+
+	public Note(double noteSN, double noteSR, double noteFinal) {
+		super();
+		this.noteSN = noteSN;
+		this.noteSR = noteSR;
+		this.noteFinal = noteFinal;
+	}
+
+
+	public Long getIdNote() {
+		return idNote;
+	}
+
+
+	public void setIdNote(Long idNote) {
+		this.idNote = idNote;
+	}
+
+
+	public double getNoteSN() {
+		return noteSN;
+	}
+
+
+	public void setNoteSN(double noteSN) {
+		this.noteSN = noteSN;
+	}
+
+
+	public double getNoteSR() {
+		return noteSR;
+	}
+
+
+	public void setNoteSR(double noteSR) {
+		this.noteSR = noteSR;
+	}
+
+
+	public double getNoteFinal() {
+		return noteFinal;
+	}
+
+
+	public void setNoteFinal(double noteFinal) {
+		this.noteFinal = noteFinal;
+	}
+	
+	
+	
 }
