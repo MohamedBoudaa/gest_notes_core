@@ -24,7 +24,7 @@ public class Etudiant implements Personne{
 	
 	private String cin;
 
-	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionAdministrative.class)
+	@OneToMany(mappedBy="etudiant",cascade = CascadeType.ALL, targetEntity=InscriptionAdministrative.class)
 	private List<InscriptionAdministrative> listInscAdmin;
 
 	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionPedagogique.class)
@@ -37,12 +37,25 @@ public class Etudiant implements Personne{
 		
 	}
 	
+
 	public Etudiant(String firstname, String secondName, String cne, String cin) {
 		super();
 		this.firstname = firstname;
 		this.secondName = secondName;
 		this.cne = cne;
 		this.cin = cin;
+	}
+	
+	
+	public Etudiant(String firstname, String secondName, String cne, String cin,
+			List<InscriptionAdministrative> listInscAdmin, List<InscriptionPedagogique> listInscPedago) {
+		super();
+		this.firstname = firstname;
+		this.secondName = secondName;
+		this.cne = cne;
+		this.cin = cin;
+		this.listInscAdmin = listInscAdmin;
+		this.listInscPedago = listInscPedago;
 	}
 
 	public Long getId() {
@@ -106,8 +119,19 @@ public class Etudiant implements Personne{
 		this.listInscPedago.add(ins);
 	}
 	
+	public void addInscrPedago(InscriptionPedagogique O) {
+		if(this.listInscPedago == null) {
+			this.listInscPedago = new ArrayList<InscriptionPedagogique>();
+		}
+		this.listInscPedago.add(O);
+	}
 	
-	
+	public void addInscrAdmin(InscriptionAdministrative O) {
+		if(this.listInscAdmin == null) {
+			this.listInscAdmin = new ArrayList<InscriptionAdministrative>();
+		}
+		this.listInscAdmin.add(O);
+	}
 	
 	
 	

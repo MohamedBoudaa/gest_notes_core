@@ -1,5 +1,6 @@
 package com.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ public class Niveau {
 		
 	private int cycle;
 	
-	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=Module.class)
+	@OneToMany(mappedBy="niveau",cascade = CascadeType.ALL, targetEntity=Module.class)
 	private List<Module> modules;
 
 	
@@ -29,6 +30,12 @@ public class Niveau {
 		
 	}
 
+	public Niveau(String title, String label, int cycle) {
+		super();
+		this.title = title;
+		this.label = label;
+		this.cycle = cycle;
+	}
 
 	public Niveau(String title, String label, int cycle, List<Module> modules) {
 		super();
@@ -78,7 +85,12 @@ public class Niveau {
 		this.modules = modules;
 	}
 	
-	
+	public void addModule(Module O) {
+		if(this.modules == null) {
+			this.modules = new ArrayList<Module>();
+		}
+		this.modules.add(O);
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.bo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ public class InscriptionAdministrative {
 	@GeneratedValue(generator="increment")
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL,targetEntity=Niveau.class)
 	@JoinColumn(name="idNiveau")
 	private Niveau niveau;
 

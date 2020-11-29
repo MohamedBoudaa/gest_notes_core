@@ -1,5 +1,6 @@
 package com.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -69,6 +70,12 @@ public class InscriptionPedagogique {
 		this.inscriptionModule = inscriptionModule;
 	}
 	
+	public void addInscriptionModule(InscriptionModule O) {
+		if(this.inscriptionModule == null) {
+			this.inscriptionModule = new ArrayList<InscriptionModule>();
+		}
+		this.inscriptionModule.add(O);
+	}
 	
 	
 }

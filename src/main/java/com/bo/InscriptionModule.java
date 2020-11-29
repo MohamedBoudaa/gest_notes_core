@@ -1,5 +1,6 @@
 package com.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ public class InscriptionModule {
 	@JoinColumn( name="idModule" )
 	private Module module;
 
-	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionMatiere.class)
+	@OneToMany(mappedBy="inscriptionModule",cascade = CascadeType.ALL, targetEntity=InscriptionMatiere.class)
 	private List<InscriptionMatiere> inscriptionsMatieres;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -99,6 +100,12 @@ public class InscriptionModule {
 		ValidationModule = validationModule;
 	}
 	
+	public void addInscriptionMatiere(InscriptionMatiere O) {
+		if(this.inscriptionsMatieres == null) {
+			this.inscriptionsMatieres = new ArrayList<InscriptionMatiere>();
+		}
+		this.inscriptionsMatieres.add(O);
+	}
 	
 
 }

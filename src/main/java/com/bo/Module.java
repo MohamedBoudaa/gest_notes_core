@@ -1,5 +1,6 @@
 package com.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,13 +21,13 @@ public class Module {
 
 	private String title;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idNiveau")
 	private Niveau niveau;
 
 	private int semester;
 
-	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, targetEntity = InscriptionMatiere.class)
+	@OneToMany(mappedBy = "module", cascade = CascadeType.ALL, targetEntity = Matiere.class)
 	private List<Matiere> matieres;
 
 	private double coeff;
@@ -34,6 +35,20 @@ public class Module {
 	public Module() {
 
 	}
+
+	
+	
+	
+	public Module(String title, Niveau niveau, int semester, double coeff) {
+		super(); 
+		this.title = title;
+		this.niveau = niveau;
+		this.semester = semester;
+		this.coeff = coeff;
+	}
+
+
+
 
 	public Module(String title, Niveau niveau, int semester, List<Matiere> matieres, double coeff) {
 		super();
@@ -92,7 +107,12 @@ public class Module {
 		this.coeff = coeff;
 	}
 	
-	
+	public void addMatiere(Matiere O) {
+		if(this.matieres == null) {
+			this.matieres = new ArrayList<Matiere>();
+		}
+		this.matieres.add(O);
+	}
 	
 
 }
