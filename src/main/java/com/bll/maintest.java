@@ -12,6 +12,8 @@ import com.bo.Matiere;
 import com.bo.Module;
 import com.bo.Niveau;
 import com.bo.Note;
+import com.dao.DaoFactory;
+import com.dao.EtudiantDao;
 import com.dao.HibernateGenericDao;
 import com.dao.IDao;
 
@@ -53,7 +55,7 @@ public class maintest {
 				
 		
 				
-		IDao<Long, Etudiant> etuDao = new HibernateGenericDao<Long, Etudiant>(Etudiant.class);
+		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
 		
 		e.addInscrAdmin(inscAdmin);
 		e.addInscrPedago(inscPedago);
