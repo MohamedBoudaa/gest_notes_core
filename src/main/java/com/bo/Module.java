@@ -113,6 +113,15 @@ public class Module {
 		}
 		this.matieres.add(O);
 	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Module [id=" + id + ", title=" + title + ", niveau=" + niveau + ", semester=" + semester + ", matieres="
+				+ matieres + ", coeff=" + coeff + "]";
+	}
 	
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -23,7 +24,8 @@ public class Etudiant implements Personne{
 	private String cne;
 	
 	private String cin;
-
+	
+	
 	@OneToMany(mappedBy="etudiant",cascade = CascadeType.ALL, targetEntity=InscriptionAdministrative.class)
 	private List<InscriptionAdministrative> listInscAdmin;
 
@@ -131,6 +133,13 @@ public class Etudiant implements Personne{
 			this.listInscAdmin = new ArrayList<InscriptionAdministrative>();
 		}
 		this.listInscAdmin.add(O);
+	}
+
+
+	@Override
+	public String toString() {
+		return "Etudiant [id=" + id + ", firstname=" + firstname + ", secondName=" + secondName + ", cne=" + cne
+				+ ", cin=" + cin + ", listInscAdmin=" + listInscAdmin + ", listInscPedago=" + listInscPedago + "]";
 	}
 	
 	

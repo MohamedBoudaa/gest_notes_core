@@ -3,11 +3,12 @@
 		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	
-	
-	
-<!-- 	Cette configuration est donnée dans la documentation officielle de Hibernate !!!! -->
-	
+
+
+
+	<!-- Cette configuration est donnée dans la documentation officielle de 
+		Hibernate !!!! -->
+
 	<session-factory>
 
 		<!-- local connection properties -->
@@ -53,7 +54,11 @@
 
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 
-		<!-- Ici on ecrit les classes objets que hibernate doit convertir en table dans la bd -->
+
+		<property name="hibernate.enable_lazy_load_no_trans">true</property>
+
+		<!-- Ici on ecrit les classes objets que hibernate doit convertir en table 
+			dans la bd -->
 		<mapping class="com.bo.InscriptionMatiere" />
 		<mapping class="com.bo.InscriptionModule" />
 		<mapping class="com.bo.Note" />

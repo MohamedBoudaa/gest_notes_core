@@ -23,43 +23,46 @@ public class maintest {
 	
 	public static void main(String[] args) {
 		
-		Etudiant e = new Etudiant("med", "toto", "15159", "RB9999");
-		
-		Matiere mt =  new Matiere("math1", 1.5, null);
-		
-
-		Module m = new Module("math", null, 1, 1);
-		
-		m.addMatiere(mt);
-
-		Niveau n = new Niveau("genie info ", "Label", 1);
-		
-		
-		
-		n.addModule(m);
-		
-		
-		
-		
-		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
-		
-		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
-		
-		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
-		
-		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
-		
-		inscModule.addInscriptionMatiere(inscMatiere);
-		
-		inscPedago.addInscriptionModule(inscModule);
+//		Etudiant e = new Etudiant("med", "toto", "15159", "RB9999");
+//		
+//		Matiere mt =  new Matiere("math1", 1.5, null);
+//		
+//
+//		Module m = new Module("math", null, 1, 1);
+//		
+//		m.addMatiere(mt);
+//
+//		Niveau n = new Niveau("genie info ", "Label", 1);
+//		
+//		
+//		
+//		n.addModule(m);
+//		
+//		
+//		
+//		
+//		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
+//		
+//		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
+//		
+//		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
+//		
+//		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
+//		
+//		inscModule.addInscriptionMatiere(inscMatiere);
+//		
+//		inscPedago.addInscriptionModule(inscModule);
 				
 		
 				
 		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
 		
-		e.addInscrAdmin(inscAdmin);
-		e.addInscrPedago(inscPedago);
-		etuDao.save(e);
+//		e.addInscrAdmin(inscAdmin);
+//		e.addInscrPedago(inscPedago);
+//		etuDao.save(e);
+		
+		Etudiant et = etuDao.findById(new Long(3));
+		System.out.println(et.toString());
 		
 	}
 }

@@ -91,6 +91,14 @@ public class Niveau {
 		}
 		this.modules.add(O);
 	}
+
+	@Override
+	public String toString() {
+		return "Niveau [id=" + id + ", title=" + title + ", label=" + label + ", cycle=" + cycle + ", modules="
+				+ modules + "]";
+	}
+	
+	
 	
 	
 }

@@ -111,6 +111,15 @@ public class InscriptionAdministrative {
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
+
+	@Override
+	public String toString() {
+		return "InscriptionAdministrative [id=" + id + ", niveau=" + niveau.getTitle() 
+				+ ", etudiant=" + etudiant.getFirstname() +" "+ etudiant.getSecondName()
+				+ ", year="+ year + ", state=" + state + ", noteBeforeDelib=" 
+				+ noteBeforeDelib + ", noteFinal=" + noteFinal
+				+ ", rank=" + rank + "]";
+	}
 	
 	
 	
