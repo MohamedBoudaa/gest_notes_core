@@ -16,6 +16,7 @@ import com.dao.DaoFactory;
 import com.dao.EtudiantDao;
 import com.dao.HibernateGenericDao;
 import com.dao.InscAdminDao;
+import com.dao.SessionFactoryBuilder;
 
 public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdministrative> implements InscAdminDao {
 
@@ -27,7 +28,7 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 	@Override
 	public boolean exists(Etudiant e, int y) {
 		
-		Session s = this.getSf().getCurrentSession();
+		Session s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 		Transaction tx = null;
 		List<InscriptionAdministrative> list = new ArrayList();
 		try {
