@@ -28,10 +28,11 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 	@Override
 	public boolean exists(Etudiant e, int y) {
 		
-		Session s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+		Session s=null;
 		Transaction tx = null;
 		List<InscriptionAdministrative> list = new ArrayList();
 		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
 
 			Query query = s.createQuery("from InscriptionAdministrative where idEtudiant=:id and year=:y");
