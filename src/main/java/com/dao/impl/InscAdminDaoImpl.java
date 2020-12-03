@@ -28,7 +28,7 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 	@Override
 	public boolean exists(Etudiant e, int y) {
 		
-		Session s = null;
+		Session s=null;
 		Transaction tx = null;
 		List<InscriptionAdministrative> list = new ArrayList();
 		try {
