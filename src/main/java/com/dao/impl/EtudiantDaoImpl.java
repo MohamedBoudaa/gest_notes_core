@@ -10,4 +10,10 @@ public class EtudiantDaoImpl extends HibernateGenericDao<Long, Etudiant> impleme
 		super(Etudiant.class);
 	}
 
+	@Override
+	public boolean exists(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

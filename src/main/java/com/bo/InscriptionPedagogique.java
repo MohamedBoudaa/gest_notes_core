@@ -39,6 +39,14 @@ public class InscriptionPedagogique {
 		this.inscriptionModule = inscriptionModule;
 	}
 
+	
+	
+	public InscriptionPedagogique(int year, Etudiant etudiant) {
+		super();
+		this.year = year;
+		this.etudiant = etudiant;
+	}
+
 	public Long getId() {
 		return id;
 	}
