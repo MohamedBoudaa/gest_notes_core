@@ -16,7 +16,6 @@ import com.dao.DaoFactory;
 import com.dao.EtudiantDao;
 import com.dao.HibernateGenericDao;
 import com.dao.InscAdminDao;
-import com.dao.ServicesDao;
 import com.dao.SessionFactoryBuilder;
 
 public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdministrative> implements InscAdminDao {
