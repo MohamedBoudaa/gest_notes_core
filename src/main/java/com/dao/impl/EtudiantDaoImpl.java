@@ -12,8 +12,9 @@ public class EtudiantDaoImpl extends HibernateGenericDao<Long, Etudiant> impleme
 
 	@Override
 	public boolean exists(Etudiant etudiant) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return !getByColName("cin", etudiant.getCin(), "Etudiant").isEmpty() ;	
+		
 	}
 
 }
