@@ -21,9 +21,9 @@ public class maintest {
 
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InscriptionException {
 		
-//		Etudiant e = new Etudiant("med", "toto", "15159", "RB9999");
+		Etudiant e = new Etudiant("med", "toto", "15s559", "RB9999");
 //		
 //		Matiere mt =  new Matiere("math1", 1.5, null);
 //		
@@ -55,14 +55,15 @@ public class maintest {
 				
 		
 				
-		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+//		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
 		
 //		e.addInscrAdmin(inscAdmin);
 //		e.addInscrPedago(inscPedago);
 //		etuDao.save(e);
 		
-		Etudiant et = etuDao.findById(new Long(3));
-		System.out.println(et.toString());
+		InscriptionManager inscManager = new InscriptionManagerImpl();
+		
+		inscManager.inscription(e);
 		
 	}
 }
