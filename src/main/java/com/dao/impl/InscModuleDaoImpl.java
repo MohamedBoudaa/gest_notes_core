@@ -14,10 +14,14 @@ import com.bo.Module;
 import com.dao.DaoException;
 import com.dao.HibernateGenericDao;
 import com.dao.InscModuleDao;
+import com.dao.ServicesDao;
 import com.dao.SessionFactoryBuilder;
 
 public class InscModuleDaoImpl extends HibernateGenericDao<Long, InscriptionModule> implements InscModuleDao{
 
+	private final String hqlExists="from InscriptionModule where idInscPedago=?0 and idModule=?1";
+	
+	
 	public InscModuleDaoImpl() {
 		super(InscriptionModule.class);
 	}
@@ -31,10 +35,8 @@ public class InscModuleDaoImpl extends HibernateGenericDao<Long, InscriptionModu
 		try {
 			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
-
-			Query query = s.createQuery("from InscriptionModule where idInscPedago=:idInsc and idModule=:idM");
-			query.setParameter("id", inscPdg.getId());
-			query.setParameter("y", m.getId());
+			
+			Query query=ServicesDao.initializeCreateQuery(s, hqlExists, inscPdg.getId(), m.getId());
 					
 			list=query.getResultList();
 			
@@ -46,9 +48,7 @@ public class InscModuleDaoImpl extends HibernateGenericDao<Long, InscriptionModu
 			}
 			throw new DaoException(ex);
 		} finally {
-			if (s != null && s.isOpen()) {
-				s.close();
-			}
+			ServicesDao.closeResources(s);
 		}
 
 		return !list.isEmpty();

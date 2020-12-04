@@ -16,10 +16,13 @@ import com.dao.DaoFactory;
 import com.dao.EtudiantDao;
 import com.dao.HibernateGenericDao;
 import com.dao.InscAdminDao;
+import com.dao.ServicesDao;
 import com.dao.SessionFactoryBuilder;
 
 public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdministrative> implements InscAdminDao {
 
+	private final String hqlExists="from InscriptionAdministrative where idEtudiant=?0 and year=?1";
+	
 	public InscAdminDaoImpl() {
 		super(InscriptionAdministrative.class);
 
@@ -35,10 +38,8 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
 
-			Query query = s.createQuery("from InscriptionAdministrative where idEtudiant=:id and year=:y");
-			query.setParameter("id", e.getId());
-			query.setParameter("y", y);
-					
+			Query query=ServicesDao.initializeCreateQuery(s, hqlExists, e.getId(), y);
+			
 			list=query.getResultList();
 			
 			tx.commit();
@@ -49,9 +50,7 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 			}
 			throw new DaoException(ex);
 		} finally {
-			if (s != null && s.isOpen()) {
-				s.close();
-			}
+			ServicesDao.closeResources(s);
 		}
 		
 		return !list.isEmpty();

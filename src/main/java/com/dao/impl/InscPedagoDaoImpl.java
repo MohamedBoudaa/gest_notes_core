@@ -9,15 +9,16 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.bo.Etudiant;
-import com.bo.InscriptionAdministrative;
 import com.bo.InscriptionPedagogique;
 import com.dao.DaoException;
 import com.dao.HibernateGenericDao;
 import com.dao.InscPedagoDao;
+import com.dao.ServicesDao;
 import com.dao.SessionFactoryBuilder;
 
 public class InscPedagoDaoImpl extends HibernateGenericDao<Long, InscriptionPedagogique> implements InscPedagoDao{
 
+	private final String hqlExists="from InscriptionPedagogique where idEtudiant=?0 and year=?1";
 	
 	public InscPedagoDaoImpl() {
 		super(InscriptionPedagogique.class);
@@ -33,9 +34,7 @@ public class InscPedagoDaoImpl extends HibernateGenericDao<Long, InscriptionPeda
 			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
 
-			Query query = s.createQuery("from InscriptionPedagogique where idEtudiant=:id and year=:y");
-			query.setParameter("id", e.getId());
-			query.setParameter("y", y);
+			Query query = ServicesDao.initializeCreateQuery(s, hqlExists, e.getId(), y);
 					
 			list=query.getResultList();
 			
@@ -47,9 +46,7 @@ public class InscPedagoDaoImpl extends HibernateGenericDao<Long, InscriptionPeda
 			}
 			throw new DaoException(ex);
 		} finally {
-			if (s != null && s.isOpen()) {
-				s.close();
-			}
+			ServicesDao.closeResources(s);
 		}
 		
 		return !list.isEmpty();

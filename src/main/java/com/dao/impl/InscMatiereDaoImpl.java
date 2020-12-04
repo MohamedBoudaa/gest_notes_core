@@ -14,10 +14,13 @@ import com.bo.Matiere;
 import com.dao.DaoException;
 import com.dao.HibernateGenericDao;
 import com.dao.InscMatiereDao;
+import com.dao.ServicesDao;
 import com.dao.SessionFactoryBuilder;
 
 public class InscMatiereDaoImpl extends HibernateGenericDao<Long, InscriptionMatiere> implements InscMatiereDao{
 
+	private final String hqlExists="from InscriptionMatiere where idInscriptionModule=?0 and idMatiere=?1";
+	
 	public InscMatiereDaoImpl() {
 		super(InscriptionMatiere.class);
 	}
@@ -32,9 +35,7 @@ public class InscMatiereDaoImpl extends HibernateGenericDao<Long, InscriptionMat
 			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
 
-			Query query = s.createQuery("from InscriptionMatiere where idInscriptionModule=:idInsc and idMatiere=:idM");
-			query.setParameter("id", inscModule.getId());
-			query.setParameter("y", m.getId());
+			Query query =ServicesDao.initializeCreateQuery(s, hqlExists, inscModule.getId(), m.getId());
 					
 			list=query.getResultList();
 			
@@ -46,9 +47,7 @@ public class InscMatiereDaoImpl extends HibernateGenericDao<Long, InscriptionMat
 			}
 			throw new DaoException(ex);
 		} finally {
-			if (s != null && s.isOpen()) {
-				s.close();
-			}
+			ServicesDao.closeResources(s);
 		}
 		
 		return !list.isEmpty();
