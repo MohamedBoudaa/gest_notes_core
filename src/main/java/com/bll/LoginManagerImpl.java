@@ -28,7 +28,7 @@ public class LoginManagerImpl implements LoginManager{
 			throw new LoginException("Le compte n'existe pas !");
 		}
 		Compte tmp = compteDao.getByColName("username", compte.getUsername(), "Compte").get(0);
-		if(compte.getPassword() == tmp.getUsername()) {
+		if(compte.getPassword().equals(tmp.getUsername())) {
 			return true;
 		}
 		

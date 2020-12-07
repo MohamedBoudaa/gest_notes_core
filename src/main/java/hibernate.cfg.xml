@@ -68,6 +68,7 @@
 		<mapping class="com.bo.InscriptionAdministrative" />
 		<mapping class="com.bo.Etudiant" />
 		<mapping class="com.bo.InscriptionPedagogique" />
+		<mapping class="com.bo.Compte" />
 
 
 

@@ -1,7 +1,12 @@
 package com.bo;
 
-public class Compte {
+import javax.persistence.*;
 
+@Entity
+public class Compte {
+	
+	@Id
+	@GeneratedValue(generator = "increment")
 	private Long id;
 	
 	private String username;
