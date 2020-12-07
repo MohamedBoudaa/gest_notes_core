@@ -1,6 +1,7 @@
 package com.dao;
 
 
+import com.dao.impl.CompteDaoImpl;
 import com.dao.impl.EtudiantDaoImpl;
 import com.dao.impl.InscAdminDaoImpl;
 import com.dao.impl.InscMatiereDaoImpl;
@@ -22,6 +23,7 @@ public class DaoFactory {
 	public static final String DAO_MODULE = "moduleDao";
 	public static final String DAO_NIVEAU = "niveauDao";
 	public static final String DAO_NOTE = "noteDao";
+	public static final String DAO_COMPTE = "compteDao";
 
 	private static final DaoFactory instance = new DaoFactory();
 
@@ -57,6 +59,9 @@ public class DaoFactory {
 		}
 		if (DAO_NIVEAU.equals(pname)) {
 			return new NiveauDaoImpl();
+		}
+		if (DAO_COMPTE.equals(pname)) {
+			return new CompteDaoImpl();
 		}
 
 
