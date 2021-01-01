@@ -71,7 +71,7 @@ public class SearchManagerImpl implements SearchManager {
 	 * Filter List of hashmap by second name
 	 */
 	private static List<HashMap<String, String>> filterByCne(String cne, List<HashMap<String, String>> list) {
-		List<HashMap<String, String>> res = new ArrayList<HashMap<String,String>>();;
+		List<HashMap<String, String>> res = new ArrayList<HashMap<String,String>>();
 
 		if (cne == null) {
 			return list;
@@ -102,6 +102,16 @@ public class SearchManagerImpl implements SearchManager {
 		result = filterByCne(cne, result);
 
 		return result;
+	}
+	
+	
+	
+	/**
+	 * Fonctions D'affichage des details d'un etudiant selectionné
+	 */
+	
+	public void showEtudiantDetails(String cne) {
+		
 	}
 
 }

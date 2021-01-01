@@ -108,7 +108,6 @@ public List<HashMap<String,String>> getEtudiantByNiveau(Long idNiveau) {
 		Session s = null;
 		Transaction tx = null;
 		try {
-			System.out.println("query");
 
 			s = super.sf.getCurrentSession();
 			tx =  s.beginTransaction();
