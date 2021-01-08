@@ -22,10 +22,10 @@ public class InscriptionPedagogique {
 	private int year;
 	
 	@ManyToOne
-    @JoinColumn(name="idEtudiant")
+    @JoinColumn(name="idEtudiant",nullable=false)
 	private Etudiant etudiant;
 	
-	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionModule.class)
+	@OneToMany(mappedBy="InscPedago",cascade = CascadeType.ALL, targetEntity=InscriptionModule.class)
 	private List<InscriptionModule> inscriptionModule;
 
 	public InscriptionPedagogique() {

@@ -18,21 +18,26 @@ import com.dao.InscAdminDao;
 import com.dao.InscMatiereDao;
 import com.dao.InscModuleDao;
 import com.dao.InscPedagoDao;
+import com.dao.ModuleDao;
+import com.dao.NiveauDao;
 import com.dao.InscMatiereDao;
 
 
 public class InscriptionManagerImpl implements InscriptionManager {
 
-	private InscAdminDao inscAdminDao = (InscAdminDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
+	private static final InscAdminDao inscAdminDao = (InscAdminDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
 
-	private InscMatiereDao inscMatiereDao = (InscMatiereDao) DaoFactory.getDaoFactory()
+	private static final InscMatiereDao inscMatiereDao = (InscMatiereDao) DaoFactory.getDaoFactory()
 			.getDao(DaoFactory.DAO_INSCMATIERE);
 
-	private InscPedagoDao inscPedagoDao = (InscPedagoDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
+	private static final InscPedagoDao inscPedagoDao = (InscPedagoDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
 
-	private InscModuleDao inscModuleDao = (InscModuleDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMODULE);
+	private static final InscModuleDao inscModuleDao = (InscModuleDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMODULE);
 
-	private EtudiantDao etudiantDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+	private static final EtudiantDao etudiantDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+
+	private static final NiveauDao niveauDao = (NiveauDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_NIVEAU);
+
 
 	protected final Logger LOGGER;
 
@@ -67,6 +72,10 @@ public class InscriptionManagerImpl implements InscriptionManager {
 
 		LOGGER.info("Inscription validée  : ");
 
+	}
+	
+	public Niveau getNiveauByTitle(String niveau) {
+		return (Niveau) niveauDao.getByColName("title", niveau, "Niveau").get(0);
 	}
 
 	public void inscrirAdmin(Etudiant etudiant, Niveau niveau, int year) throws InscriptionException {
@@ -103,9 +112,7 @@ public class InscriptionManagerImpl implements InscriptionManager {
 
 	public void inscrirPedago(Etudiant etudiant, List<Module> modules, int year) throws InscriptionException {
 
-		if (!etudiantDao.exists(etudiant)) {
-			throw new InscriptionException("Etudiant introuvable");
-		}
+		
 
 		if (inscPedagoDao.exists(etudiant, year)) {
 			throw new InscriptionException("L'étudiant a déjà une inscription pour l'année " + year);
@@ -114,22 +121,26 @@ public class InscriptionManagerImpl implements InscriptionManager {
 		for (int i = 0; i < modules.size(); i++) {
 			
 			InscriptionModule inscModule = new InscriptionModule(modules.get(i), null, null, inscPedago, -1);
-			List<Matiere> matieres = modules.get(i).getMatieres();
-			
-			for (int j = 0; j < matieres.size(); j++) {
-				
-				InscriptionMatiere inscMatiere = new InscriptionMatiere(matieres.get(j), null, inscModule);
-				inscModule.addInscriptionMatiere(inscMatiere);
-			}
+//			List<Matiere> matieres = modules.get(i).getMatieres();
+//			
+//			for (int j = 0; j < matieres.size(); j++) {
+//				
+//				InscriptionMatiere inscMatiere = new InscriptionMatiere(matieres.get(j), null, inscModule);
+//				inscModule.addInscriptionMatiere(inscMatiere);
+//			}
 			
 			inscPedago.addInscriptionModule(inscModule);
 		}
 
 		etudiant.addInscrPedago(inscPedago);
-		etudiantDao.update(etudiant);
+		if (!etudiantDao.exists(etudiant)) {
+			etudiantDao.save(etudiant);
+//			throw new InscriptionException("Etudiant introuvable");
+		}else {
+			etudiant = (Etudiant) etudiantDao.getByCne(etudiant.getCne()).get(0);
+			etudiantDao.update(etudiant);
+		}
 	}
-	
-	
 	
 	
 	

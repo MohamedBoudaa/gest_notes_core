@@ -34,8 +34,8 @@ public class InscPedagoDaoImpl extends HibernateGenericDao<Long, InscriptionPeda
 			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
 			tx = s.beginTransaction();
 
-			Query query = ServicesDao.initializeCreateQuery(s, hqlExists, e.getId(), y);
-					
+			Query query = ServicesDao.initializeCreateQuery(s, hqlExists, e.getCne(), y);
+			
 			list=query.getResultList();
 			
 			tx.commit();

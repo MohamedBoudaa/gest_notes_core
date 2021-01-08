@@ -14,19 +14,25 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import com.bo.Etudiant;
+import com.bo.Module;
 import com.bo.Niveau;
 import com.dao.DaoException;
 import com.dao.DaoFactory;
+import com.dao.ModuleDao;
 import com.dao.SessionFactoryBuilder;
 import com.dao.impl.InscAdminDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
 
 public class SearchManagerImpl implements SearchManager {
 
-	private SessionFactory sf;
 
+
+	private static final ModuleDao moduleDao = (ModuleDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MODULE);
+
+	private static final InscAdminDaoImpl inscAdminDao = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
+	
 	public SearchManagerImpl() {
-		sf = SessionFactoryBuilder.getSessionFactory();
+
 	}
 
 	/**
@@ -91,7 +97,7 @@ public class SearchManagerImpl implements SearchManager {
 
 		List<HashMap<String, String>> result = null;
 
-		InscAdminDaoImpl inscAdminDao = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
+		
 
 		result = inscAdminDao.getEtudiantByNiveau(niveau);
 		
@@ -105,13 +111,38 @@ public class SearchManagerImpl implements SearchManager {
 	}
 	
 	
-	
-	/**
-	 * Fonctions D'affichage des details d'un etudiant selectionné
-	 */
-	
-	public void showEtudiantDetails(String cne) {
-		
+	public List<Module> getAllModules(){
+		return moduleDao.getAll();
 	}
+	
+	public List<Module> filterModulesByNiveau(String niveau,List<Module> modules){
+		List<Module> list = new ArrayList<Module>();
+		
+		if(niveau == null) {
+			return modules;
+		}
+		
+		for (int i = 0; i < modules.size(); i++) {
+			String niv = modules.get(i).getNiveau().getTitle();
+			if (niv.equals(niveau)) {
+				list.add(modules.get(i));
+			}
+		}
+		
+		
+		
+		return list;
+	}
+	
+	
+	public List<Module> getModulesByNiveau(String niveau){
+		
+		List<Module> modules = getAllModules();
+		
+		modules = filterModulesByNiveau(niveau, modules);
+		
+		return modules;
+	}
+	
 
 }

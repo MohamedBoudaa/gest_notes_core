@@ -24,60 +24,63 @@ public class maintest {
 
 	public static void main(String[] args) throws InscriptionException {
 
-		Etudiant e = new Etudiant("med", "toto", "15s559", "RB9999");
-//		
-//		Matiere mt =  new Matiere("math1", 1.5, null);
-//		
-//
-//		Module m = new Module("math", null, 1, 1);
-//		
-//		m.addMatiere(mt);
-//
-//		Niveau n = new Niveau("genie info ", "Label", 1);
-//		
-//		
-//		
-//		n.addModule(m);
-//		
-//		
-//		
-//		
-//		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
-//		
-//		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
-//		
-//		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
-//		
-//		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
-//		
-//		inscModule.addInscriptionMatiere(inscMatiere);
-//		
-//		inscPedago.addInscriptionModule(inscModule);
+		Etudiant e = new Etudiant("qsdfmedq", "tossto", "15s5qsdfqsdf59", "RB9999");
+		
+		Matiere mt =  new Matiere("math1", 1.5, null);
+		
 
-//		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+		Module m = new Module("math", null, 1, 1);
+		
+		m.addMatiere(mt);
 
-//		e.addInscrAdmin(inscAdmin);
-//		e.addInscrPedago(inscPedago);
-//		etuDao.save(e);
+		Niveau n = new Niveau("genie info ", "Label", 1);
+		
+		
+		
+		n.addModule(m);
+		
+		
+		
+		
+		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
+		
+		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
+		
+		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
+		
+		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
+		
+		inscModule.addInscriptionMatiere(inscMatiere);
+		
+		inscPedago.addInscriptionModule(inscModule);
 
+		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+
+		e.addInscrAdmin(inscAdmin);
+		e.addInscrPedago(inscPedago);
 		InscriptionManager inscManager = new InscriptionManagerImpl();
+//		inscManager.inscription(e);
+		etuDao.save(e);
 
-		InscAdminDaoImpl inscAdminDao = new InscAdminDaoImpl();
+		
 
-		SearchManagerImpl sm = new SearchManagerImpl();
 
-		List<HashMap<String, String>> list = sm.searchStudent(null, null, "22", null);
-				
-				
-		if (list != null) {
-
-			for (int i = 0; i < list.size(); i++) {
-				for(Map.Entry<String,String> entry : list.get(i).entrySet()) {
-					System.out.println(entry.getKey()+" : "+entry.getValue());
-				}
-			}
-
-		}
+//		InscAdminDaoImpl inscAdminDao = new InscAdminDaoImpl();
+//
+//		SearchManagerImpl sm = new SearchManagerImpl();
+//
+//		List<HashMap<String, String>> list = sm.searchStudent(null, null, "22", null);
+//				
+//				
+//		if (list != null) {
+//
+//			for (int i = 0; i < list.size(); i++) {
+//				for(Map.Entry<String,String> entry : list.get(i).entrySet()) {
+//					System.out.println(entry.getKey()+" : "+entry.getValue());
+//				}
+//			}
+//
+//		}
 
 	}
 }

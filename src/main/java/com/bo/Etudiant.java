@@ -29,7 +29,7 @@ public class Etudiant implements Personne{
 	@OneToMany(mappedBy="etudiant",cascade = CascadeType.ALL, targetEntity=InscriptionAdministrative.class)
 	private List<InscriptionAdministrative> listInscAdmin;
 
-	@OneToMany(mappedBy="id",cascade = CascadeType.ALL, targetEntity=InscriptionPedagogique.class)
+	@OneToMany(mappedBy="etudiant",cascade = CascadeType.ALL, targetEntity=InscriptionPedagogique.class)
 	private List<InscriptionPedagogique> listInscPedago;
 
 	
