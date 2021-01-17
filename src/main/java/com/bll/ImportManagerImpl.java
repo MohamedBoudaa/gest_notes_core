@@ -10,12 +10,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImportExportManagerImpl implements ImportExportManager {
+public class ImportManagerImpl implements ImportManager {
 
 	
 	public static final String DEST = "";
 	
-	public ImportExportManagerImpl(){
+	public ImportManagerImpl(){
 		
 	}
 	
