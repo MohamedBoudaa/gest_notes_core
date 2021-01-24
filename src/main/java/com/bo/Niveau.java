@@ -97,6 +97,16 @@ public class Niveau {
 		return "Niveau [id=" + id + ", title=" + title + ", label=" + label + ", cycle=" + cycle + ", modules="
 				+ modules + "]";
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 	
 	
 	

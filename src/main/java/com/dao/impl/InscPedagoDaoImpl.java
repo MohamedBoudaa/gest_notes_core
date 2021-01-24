@@ -51,6 +51,31 @@ public class InscPedagoDaoImpl extends HibernateGenericDao<Long, InscriptionPeda
 		
 		return !list.isEmpty();
 	}
-	
+	public InscriptionPedagogique getInscriptionPedagogique(Long idEtudiant, int year) {
+		InscriptionPedagogique inscPedag = null;
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+			
+			String hql = "from InscriptionPedagogique where idEtudiant=:idE and year=:y";
+			Query query = s.createQuery(hql);
+			query.setParameter("idE", idEtudiant);
+			query.setParameter("y", year);
+			
+			inscPedag = (InscriptionPedagogique) query.list().get(0);
+
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return inscPedag;
+	}
 	
 }

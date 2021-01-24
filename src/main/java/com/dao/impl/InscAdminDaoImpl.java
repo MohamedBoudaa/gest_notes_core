@@ -152,5 +152,34 @@ public List<HashMap<String,String>> getEtudiantByNiveau(Long idNiveau) {
 		}
 		return resultat;
 	}
+public List<InscriptionAdministrative> getInscription(int year, Long idEtudiant,Long idNiveau ) {
+		
+		List<InscriptionAdministrative> inscAdmin = null;
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+			
+			String hql = "from InscriptionAdministrative where year=:y AND idEtudiant=:idE AND idNiveau=:idN";
+			Query query = s.createQuery(hql);
+			query.setParameter("y", year);
+			query.setParameter("idE", idEtudiant);
+			query.setParameter("idN", idNiveau);
+			
+			inscAdmin = (List<InscriptionAdministrative>) query.list();
+			
+			
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return inscAdmin;						
+	}
 	
 }
