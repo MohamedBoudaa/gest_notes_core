@@ -111,6 +111,21 @@ public class Etudiant implements Personne{
 	public List<InscriptionPedagogique> getListInscPedago() {
 		return listInscPedago;
 	}
+	public Integer getInscPedagoIndex(String pyear) {
+		int year = Integer.parseInt(pyear);
+		for(int i = 0 ; i < listInscPedago.size();i++) {
+			if(listInscPedago.get(i).getYear() == year) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public void setInscPedagoAt(int index,InscriptionPedagogique element) {
+		listInscPedago.set(index, element);
+	}
+	
+	
 
 	public void setListInscPedago(List<InscriptionPedagogique> listInscPedago) {
 		this.listInscPedago = listInscPedago;

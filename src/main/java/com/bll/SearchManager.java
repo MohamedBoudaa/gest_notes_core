@@ -7,6 +7,6 @@ import com.bo.Etudiant;
 
 public interface SearchManager {
 	
-	List<HashMap<String,String>> searchStudent(String name,String scndName,String cne,Long niveau);
+	List<HashMap<String,String>> searchStudent(String name,String scndName,String cne,Long niveau,Integer year);
 
 }

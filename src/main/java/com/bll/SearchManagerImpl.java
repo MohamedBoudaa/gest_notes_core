@@ -25,7 +25,7 @@ import com.dao.impl.NiveauDaoImpl;
 
 public class SearchManagerImpl implements SearchManager {
 
-
+	private static final int CURRENT_YEAR = 2020;
 
 	private static final ModuleDao moduleDao = (ModuleDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MODULE);
 
@@ -93,13 +93,18 @@ public class SearchManagerImpl implements SearchManager {
 	}
 
 	@Override
-	public List<HashMap<String, String>> searchStudent(String name, String scndName, String cne, Long niveau) {
+	public List<HashMap<String, String>> searchStudent(String name, String scndName, String cne, Long niveau,Integer year) {
 
 		List<HashMap<String, String>> result = null;
 
 		
 
-		result = inscAdminDao.getEtudiantByNiveau(niveau);
+		if(year == null) {
+			System.out.println("year is null");
+			result = inscAdminDao.getEtudiantByNiveau(niveau);
+		}else {
+			result = inscAdminDao.getEtudiantByNiveauYear(niveau,year);
+		}
 		
 		result = filterByName(name, result);
 
@@ -143,6 +148,8 @@ public class SearchManagerImpl implements SearchManager {
 		
 		return modules;
 	}
+
+	
 	
 
 }

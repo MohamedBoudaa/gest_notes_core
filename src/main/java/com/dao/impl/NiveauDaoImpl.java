@@ -43,5 +43,15 @@ public class NiveauDaoImpl extends HibernateGenericDao<Long, Niveau> implements 
 		}
 		return niveau;
 	}
+	
+	public Niveau getByTitle(String title) {
+		
+		return getByColName("title", title , "Niveau").get(0);
+	}
+	public Niveau getById(String id) {
+		
+		return getByColName("id",id,"Niveau").get(0);
+	}
+
 
 }

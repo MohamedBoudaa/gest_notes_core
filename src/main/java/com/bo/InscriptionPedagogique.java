@@ -86,5 +86,15 @@ public class InscriptionPedagogique {
 		this.inscriptionModule.add(O);
 	}
 	
+	public  InscriptionModule getInscriptionModuleByModuleTitle(String title) {
+		for(int i = 0 ; i < inscriptionModule.size();i++) {
+			if(inscriptionModule.get(i).getModule().getTitle().equalsIgnoreCase(title)) {
+				return inscriptionModule.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
 	
 }
