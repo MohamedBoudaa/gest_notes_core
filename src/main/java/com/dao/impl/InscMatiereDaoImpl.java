@@ -52,4 +52,38 @@ public class InscMatiereDaoImpl extends HibernateGenericDao<Long, InscriptionMat
 		
 		return !list.isEmpty();
 	}
+public List<InscriptionMatiere> getInscriptionMatiere(Long idInscModule,Long[] idMatieres) {
+		List<InscriptionMatiere> inscM=null;
+		List<InscriptionMatiere> list = new ArrayList<>();
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+			
+			for(int i=0;i<idMatieres.length;i++) {
+				String hql = "from InscriptionMatiere where idInscriptionModule=:idInscM and idMatiere=:idM ";
+				Query query = s.createQuery(hql);
+				query.setParameter("idInscM", idInscModule);
+				query.setParameter("idM", idMatieres[i]);
+				inscM = (List<InscriptionMatiere>) query.list();
+				if(!inscM.isEmpty()) {
+					for(int i1=0 ; i1<inscM.size() ;i1++) {
+						list.add(inscM.get(i1));
+					}
+					
+				}
+			}
+			
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return list;
+	}
 }

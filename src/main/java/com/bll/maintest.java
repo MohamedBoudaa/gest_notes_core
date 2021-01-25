@@ -24,43 +24,46 @@ public class maintest {
 
 	public static void main(String[] args) throws InscriptionException {
 
-		Etudiant e = new Etudiant("qsdfmedq", "tossto", "15s5qsdfqsdf59", "RB9999");
 		
-		Matiere mt =  new Matiere("math1", 1.5, null);
+	//	ImportExportManagerImpl.exportBulltinToPDF("X3213", 2020, "CP1");
 		
-
-		Module m = new Module("math", null, 1, 1);
-		
-		m.addMatiere(mt);
-
-		Niveau n = new Niveau("genie info ", "Label", 1);
-		
-		
-		
-		n.addModule(m);
-		
-		
-		
-		
-		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
-		
-		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
-		
-		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
-		
-		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
-		
-		inscModule.addInscriptionMatiere(inscMatiere);
-		
-		inscPedago.addInscriptionModule(inscModule);
-
-		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
-
-		e.addInscrAdmin(inscAdmin);
-		e.addInscrPedago(inscPedago);
-		InscriptionManager inscManager = new InscriptionManagerImpl();
-//		inscManager.inscription(e);
-		etuDao.save(e);
+//		Etudiant e = new Etudiant("qsdfmedq", "tossto", "15s5qsdfqsdf59", "RB9999");
+//		
+//		Matiere mt =  new Matiere("math1", 1.5, null);
+//		
+//
+//		Module m = new Module("math", null, 1, 1);
+//		
+//		m.addMatiere(mt);
+//
+//		Niveau n = new Niveau("genie info ", "Label", 1);
+//		
+//		
+//		
+//		n.addModule(m);
+//		
+//		
+//		
+//		
+//		InscriptionAdministrative inscAdmin = new InscriptionAdministrative(n, e, 2020, 0, -1, -1, -1);
+//		
+//		InscriptionPedagogique inscPedago = new InscriptionPedagogique(2020, e, null);
+//		
+//		InscriptionModule inscModule = new InscriptionModule(m, null, null, inscPedago, 0);
+//		
+//		InscriptionMatiere inscMatiere = new InscriptionMatiere(mt, null, null);
+//		
+//		inscModule.addInscriptionMatiere(inscMatiere);
+//		
+//		inscPedago.addInscriptionModule(inscModule);
+//
+//		EtudiantDao etuDao = (EtudiantDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+//
+//		e.addInscrAdmin(inscAdmin);
+//		e.addInscrPedago(inscPedago);
+//		InscriptionManager inscManager = new InscriptionManagerImpl();
+////		inscManager.inscription(e);
+//		etuDao.save(e);
 
 		
 
@@ -81,6 +84,7 @@ public class maintest {
 //			}
 //
 //		}
+
 
 	}
 }
