@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import com.bo.Etudiant;
+import com.bo.InscriptionModule;
 import com.bo.Module;
 import com.bo.Niveau;
 import com.dao.DaoException;
@@ -21,6 +22,7 @@ import com.dao.DaoFactory;
 import com.dao.ModuleDao;
 import com.dao.SessionFactoryBuilder;
 import com.dao.impl.InscAdminDaoImpl;
+import com.dao.impl.InscModuleDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
 
 public class SearchManagerImpl implements SearchManager {
@@ -28,6 +30,8 @@ public class SearchManagerImpl implements SearchManager {
 	private static final int CURRENT_YEAR = 2020;
 
 	private static final ModuleDao moduleDao = (ModuleDao) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MODULE);
+
+	private static final InscModuleDaoImpl inscModuleDao = (InscModuleDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMODULE);
 
 	private static final InscAdminDaoImpl inscAdminDao = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
 	
@@ -149,6 +153,28 @@ public class SearchManagerImpl implements SearchManager {
 		return modules;
 	}
 
+	
+	public InscriptionModule getInscModuleByInscPedagoAndModule(Long idInscPedago,String idModule,Integer year){
+		
+		List<InscriptionModule> list = inscModuleDao.getByColName("idModule", idModule, "InscriptionModule");
+		
+		list = filterInscModuleByInscPedago(list, idInscPedago);
+		
+		return null;
+	}
+	
+	private static List<InscriptionModule> filterInscModuleByInscPedago(List<InscriptionModule> list,Long idInscPedago){
+		List<InscriptionModule> newList = new ArrayList<InscriptionModule>();
+		
+		
+		for(int i = 0 ; i< list.size() ;i++) {
+			if(list.get(i).getInscPedago().getId().equals(idInscPedago)) {
+				newList.add(list.get(i));
+			}
+		}
+		return newList;
+	}
+	
 	
 	
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +53,44 @@ public class ImportManagerImpl implements ImportManager {
 	public ImportManagerImpl() {
 
 	}
+	
+	
+	
+	
+
+	
+	/**
+	 * check student list in file with all students registered in the module in that year
+	 * @throws ImportException 
+	 * 
+	 */
+	public static void checkRegisteredStudentsByModule(List<String> students,String module,String year) throws ImportException {
+		System.out.println("***********CHECKING STUDENTS***************");
+		Long idModule = DAO_MODULE.getByColName("title", module, "Module").get(0).getId();
+		
+		List<Etudiant> list = DAO_ETUDIANT.getEtudiantByModule(idModule, year);
+		if(list.size()!= students.size()) {
+			throw new ImportException("La liste des étudiants est incorrecte - database :"+list.size()+" - file : "+students.size());
+		}
+		
+		Collections.sort(students);
+		if (list != null) {
+			
+			for (int i = 0; i < list.size(); i++) {
+				
+				System.out.println("Database : "+list.get(i).getCne()+" --  File : "+students.get(i));
+				if (!list.get(i).getCne().equalsIgnoreCase(students.get(i))) {
+					throw new ImportException("La liste des étudiants est incorrecte");
+				}
+			}
+
+		} else {
+			throw new ImportException("aucun étudiant trouvé !");
+		}
+		System.out.println("**********Checking students list has been done successfully !************");
+	}
+		
+
 
 	/**
 	 * Check if csv file contains only students of the selected niveau
@@ -64,9 +103,7 @@ public class ImportManagerImpl implements ImportManager {
 		List<HashMap<String, String>> list = searchManager.searchStudent(null, null, null, niveau.getId(),
 				Integer.parseInt(year));
 
-		if (list.size() != students.size()) {
-			throw new ImportException("La liste des étudiants est incorrecte");
-		}
+		
 		if (list != null) {
 
 			for (int i = 0; i < list.size(); i++) {
@@ -113,7 +150,9 @@ public class ImportManagerImpl implements ImportManager {
 	 * on the following forme :
 	 * 
 	 * 
-	 * CNE , note .. , .. .. , ..
+	 * CNE , note 
+	 * .. , .. 
+	 * .. , ..
 	 * 
 	 * @param path
 	 */
@@ -133,7 +172,9 @@ public class ImportManagerImpl implements ImportManager {
 
 		String path = file.getAbsolutePath();
 		List<String> students = new ArrayList<String>();
+		List<String> studentsAdjourned = new ArrayList<String>();
 		List<Long> notes = new ArrayList<Long>();
+		
 
 		try {
 			String extension = getFileExtension(file);
@@ -148,25 +189,46 @@ public class ImportManagerImpl implements ImportManager {
 			while ((nextLine = reader.readNext()) != null) {
 				// add students and notes to their respective arraylists
 				if (nextLine != null) {
-					students.add(nextLine[0]);
+					if(nextLine[1].startsWith("#")) {
+						notes.add(null);
+						continue;
+					}else {
+						notes.add(Long.parseLong(nextLine[1]));
+					}
+					if(nextLine[0].startsWith("#")) {
+						studentsAdjourned.add(nextLine[0].split("#")[1]);
+					}else {
+						students.add(nextLine[0]);
+					}
 
-					notes.add(Long.parseLong(nextLine[1]));
+					
 				}
 			}
-
+			
+			List<String> allStudents = new ArrayList<String>();
+			allStudents.addAll(students);
+			allStudents.addAll(studentsAdjourned);
+			
 			CheckModuleAndNiveau(niveau, module);
-			checkStudentList(students, niveau, year);
-
+//			checkStudentList(students, niveau, year);
+			checkRegisteredStudentsByModule(allStudents, module, year);
+			
 			// import notes
-			for (int i = 0; i < students.size(); i++) {
+			for (int i = 0; i < allStudents.size(); i++) {
+				if(notes.get(i) == null) {
+					continue;
+				}
 				Note note = new Note(-1, -1, notes.get(i));
 				// get Object Etudiant
-				Etudiant etu = DAO_ETUDIANT.getByCne(students.get(i)).get(0);
+				Etudiant etu = DAO_ETUDIANT.getByCne(allStudents.get(i)).get(0);
+				System.out.println("Etudiant "+etu.getFirstname()+" note : "+notes.get(i));
 				InscriptionPedagogique inscPedago = etu.getListInscPedago().get(etu.getInscPedagoIndex(year));
 				inscPedago.getInscriptionModuleByModuleTitle(module).setNote(note);
 
 				etu.setInscPedagoAt(etu.getInscPedagoIndex(year), inscPedago);
 				DAO_ETUDIANT.update(etu);
+				
+				
 			}
 
 		} catch (FileNotFoundException e) {
