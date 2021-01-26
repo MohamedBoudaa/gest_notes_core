@@ -1,0 +1,6 @@
+Fichier selectionne : C:\Users\Mohamed\Desktop\sup.csv
+Lecture depuis le fichier ....
+*************Checking module and niveau .... *************
+*************Checking module and niveau has been done successfully ! *************
+*************CHECKING STUDENTS*************
+Erreur !! la liste des etudiants est incorrecte

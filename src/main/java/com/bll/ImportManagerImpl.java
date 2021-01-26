@@ -1,10 +1,13 @@
 package com.bll;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +23,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import com.bo.Etudiant;
 import com.bo.InscriptionModule;
 import com.bo.InscriptionPedagogique;
@@ -27,6 +32,7 @@ import com.bo.Module;
 import com.bo.Niveau;
 import com.bo.Note;
 import com.dao.DaoFactory;
+import com.dao.HibernateGenericDao;
 import com.dao.impl.EtudiantDaoImpl;
 import com.dao.impl.ModuleDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
@@ -48,10 +54,14 @@ public class ImportManagerImpl implements ImportManager {
 
 	private static final SearchManagerImpl searchManager = new SearchManagerImpl();
 
-	public static final String DEST = "";
+	public static String DEST = "";
 
+	private  PrintWriter LOGGER ;
+	
 	public ImportManagerImpl() {
+		
 
+		
 	}
 	
 	
@@ -64,13 +74,14 @@ public class ImportManagerImpl implements ImportManager {
 	 * @throws ImportException 
 	 * 
 	 */
-	public static void checkRegisteredStudentsByModule(List<String> students,String module,String year) throws ImportException {
-		System.out.println("***********CHECKING STUDENTS***************");
+	public void checkRegisteredStudentsByModule(List<String> students,String module,String year) throws ImportException {
+		LOGGER.println("*************CHECKING STUDENTS*************");
 		Long idModule = DAO_MODULE.getByColName("title", module, "Module").get(0).getId();
 		
 		List<Etudiant> list = DAO_ETUDIANT.getEtudiantByModule(idModule, year);
 		if(list.size()!= students.size()) {
-			throw new ImportException("La liste des étudiants est incorrecte - database :"+list.size()+" - file : "+students.size());
+			LOGGER.println("Erreur !! la liste des etudiants est incorrecte");
+			throw new ImportException("La liste des etudiants est incorrecte - database :"+list.size()+" - file : "+students.size());
 		}
 		
 		Collections.sort(students);
@@ -78,16 +89,18 @@ public class ImportManagerImpl implements ImportManager {
 			
 			for (int i = 0; i < list.size(); i++) {
 				
-				System.out.println("Database : "+list.get(i).getCne()+" --  File : "+students.get(i));
+				LOGGER.println("Database : "+list.get(i).getCne()+" --  File : "+students.get(i));
 				if (!list.get(i).getCne().equalsIgnoreCase(students.get(i))) {
-					throw new ImportException("La liste des étudiants est incorrecte");
+					LOGGER.println("Erreur !! la liste des etudiants est incorrecte");
+					throw new ImportException("La liste des etudiants est incorrecte");
 				}
 			}
 
 		} else {
-			throw new ImportException("aucun étudiant trouvé !");
+			LOGGER.println("Erreur !! aucun etudiant trouve !");
+			throw new ImportException("aucun etudiant trouve !");
 		}
-		System.out.println("**********Checking students list has been done successfully !************");
+		LOGGER.println("**********Checking students list has been done successfully !************");
 	}
 		
 
@@ -95,8 +108,8 @@ public class ImportManagerImpl implements ImportManager {
 	/**
 	 * Check if csv file contains only students of the selected niveau
 	 */
-	public static void checkStudentList(List<String> students, String niveauTitle, String year) throws ImportException {
-		System.out.println("checking Students list....");
+	public  void checkStudentList(List<String> students, String niveauTitle, String year) throws ImportException {
+		LOGGER.println("checking Students list....");
 
 		Niveau niveau = DAO_NIVEAU.getByTitle(niveauTitle);
 
@@ -108,24 +121,25 @@ public class ImportManagerImpl implements ImportManager {
 
 			for (int i = 0; i < list.size(); i++) {
 				if (!list.get(i).get("cne").equalsIgnoreCase(students.get(i))) {
-					throw new ImportException("La liste des étudiants est incorrecte");
+					throw new ImportException("La liste des etudiants est incorrecte");
 				}
 			}
 
 		} else {
-			throw new ImportException("aucun étudiant trouvé !");
+			throw new ImportException("aucun etudiant trouve !");
 		}
-		System.out.println("Checking students list has been done successfully !");
+		LOGGER.println("Checking students list has been done successfully !");
 	}
 
 	/**
 	 * check if niveau and module exist
 	 */
-	public static void CheckModuleAndNiveau(String niveau, String module) throws ImportException {
-		System.out.println("Checking module and niveau ....");
+	public  void CheckModuleAndNiveau(String niveau, String module) throws ImportException {
+		LOGGER.println("*************Checking module and niveau .... *************");
 		Niveau niv = DAO_NIVEAU.getByTitle(niveau);
 
 		if ((niv == null)) {
+			LOGGER.println("Erreur !! Le Niveau " + niveau + " n'existe pas !");
 			throw new ImportException("Le Niveau " + niveau + " n'existe pas !");
 		}
 		String idNiveau = niv.getId().toString();
@@ -138,11 +152,12 @@ public class ImportManagerImpl implements ImportManager {
 			}
 		}
 		if(!found) {
+			LOGGER.println("Erreur !! Le module \"" + module + "\" n'existe pas dans le niveau " + niveau + " !");
 			throw new ImportException("Le module \"" + module + "\" n'existe pas dans le niveau " + niveau + " !");
 		}
 		
 		
-		System.out.println("Checking module and niveau has been done successfully ! ");
+		LOGGER.println("*************Checking module and niveau has been done successfully ! *************");
 	}
 
 	/**
@@ -157,7 +172,7 @@ public class ImportManagerImpl implements ImportManager {
 	 * @param path
 	 */
 
-	public static String getFileExtension(File file) {
+	public  String getFileExtension(File file) {
 		String name = file.getName();
 		int lastIndexOf = name.lastIndexOf(".");
 		if (lastIndexOf == -1) {
@@ -166,11 +181,23 @@ public class ImportManagerImpl implements ImportManager {
 		return name.substring(lastIndexOf);
 	}
 
-	public static void importNotesFromCsv(File file, String niveau, String module, String year)  {
+	public  void importNotesFromCsv(File file, String niveau, String module, String year)  {
 
+		try {
+			File tmp_file = new File("log\\ImportLog.txt");
+			LOGGER = new PrintWriter("log\\ImportLog.txt", "UTF-8");
+			DEST = tmp_file.getAbsolutePath();
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}
 		
-
 		String path = file.getAbsolutePath();
+		LOGGER.println("Fichier selectionne : "+ path);
+		
 		List<String> students = new ArrayList<String>();
 		List<String> studentsAdjourned = new ArrayList<String>();
 		List<Long> notes = new ArrayList<Long>();
@@ -180,17 +207,20 @@ public class ImportManagerImpl implements ImportManager {
 			String extension = getFileExtension(file);
 
 			if (!extension.equalsIgnoreCase(".csv")) {
+				LOGGER.println("Erreur !! l'extension du fichier n'est pas 'csv'.");
 				throw new Exception("Erreur! l'extension du fichier n'est pas 'csv'.");
 			}
 			
 			CSVReader reader = new CSVReader(new FileReader(path));
 			String[] nextLine;
-
+			
+			LOGGER.println("Lecture depuis le fichier ....");
 			while ((nextLine = reader.readNext()) != null) {
 				// add students and notes to their respective arraylists
 				if (nextLine != null) {
 					if(nextLine[1].startsWith("#")) {
 						notes.add(null);
+						
 						continue;
 					}else {
 						notes.add(Long.parseLong(nextLine[1]));
@@ -214,14 +244,16 @@ public class ImportManagerImpl implements ImportManager {
 			checkRegisteredStudentsByModule(allStudents, module, year);
 			
 			// import notes
+			LOGGER.println("Verification avec succès !!\n Debut de l'importation des notes...");
 			for (int i = 0; i < allStudents.size(); i++) {
 				if(notes.get(i) == null) {
+					allStudents.add(i, null);
 					continue;
 				}
 				Note note = new Note(-1, -1, notes.get(i));
 				// get Object Etudiant
 				Etudiant etu = DAO_ETUDIANT.getByCne(allStudents.get(i)).get(0);
-				System.out.println("Etudiant "+etu.getFirstname()+" note : "+notes.get(i));
+				LOGGER.println("Etudiant "+etu.getFirstname()+" note : "+notes.get(i));
 				InscriptionPedagogique inscPedago = etu.getListInscPedago().get(etu.getInscPedagoIndex(year));
 				inscPedago.getInscriptionModuleByModuleTitle(module).setNote(note);
 
@@ -230,6 +262,7 @@ public class ImportManagerImpl implements ImportManager {
 				
 				
 			}
+			LOGGER.println("Importation des notes avec succès");
 
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "erreur : " + e.getMessage());
@@ -240,6 +273,19 @@ public class ImportManagerImpl implements ImportManager {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "erreur : " + e.getMessage());
 			e.printStackTrace();
+		}finally {
+			LOGGER.close();
 		}
+	}
+	
+	public String getImportLog() throws IOException {
+		File file = new File("log\\ImportLog.txt");
+		FileInputStream fis = new FileInputStream(file);
+		byte[] data = new byte[(int) file.length()];
+		fis.read(data);
+		fis.close();
+
+		String str = new String(data);
+		return str;
 	}
 }
