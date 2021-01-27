@@ -163,49 +163,52 @@ public class PDFCreator {
 			List<InscriptionModule> inscModule =inscModuleDAO.getInscriptionModule(inscPedag.getId(),idM);
 			
 			if(!inscModule.isEmpty()) {
-				//cell1=new PdfPCell( new Phrase(modules.get(i).getTitle()));
 				cell1=new PdfPCell( new Phrase("M"+(i+1)));
 				cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell1);
-				
-				PdfPTable t = new PdfPTable(1);
-				for(int j=0;j<matieres.size();j++) {
-					PdfPCell cell=new PdfPCell(new Phrase(matieres.get(j).getTitle()));
-					t.addCell(cell);	
-				}
-				PdfPCell cell=new PdfPCell(t);
-				table.addCell(cell);
-				
-				Long[] idModules=new Long[modules.size()];
-				for(int j=0;j<modules.size();j++) {
-					idModules[j]=modules.get(j).getId();
-				}
-										
+	
 				Long[] idMatieres=new Long[matieres.size()];
 				for(int j=0;j<matieres.size();j++) {
 					idMatieres[j]=matieres.get(j).getId();
 				}
-				
 				List<InscriptionMatiere> inscMatieres=inscMatiereDAO.getInscriptionMatiere(inscModule.get(0).getId(),idMatieres);
 				
-				t = new PdfPTable(1);
-				for(InscriptionMatiere it:inscMatieres) {
-					cell=new PdfPCell(new Phrase(""+it.getNote().getNoteFinal()));
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					t.addCell(cell);
-				}
-				cell=new PdfPCell(t);
-				table.addCell(cell);
+				PdfPTable t = new PdfPTable(1);
+				PdfPCell cell;
 				
-				t = new PdfPTable(1);
+				if(!inscMatieres.isEmpty()) {
+					for(int j=0;j<matieres.size();j++) {
+						cell=new PdfPCell(new Phrase(matieres.get(j).getTitle()));
+						t.addCell(cell);	
+					}
+					cell=new PdfPCell(t);
+					table.addCell(cell);
+					
+					t = new PdfPTable(1);
+					for(InscriptionMatiere it:inscMatieres) {
+						cell=new PdfPCell(new Phrase(""+it.getNote().getNoteFinal()));
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						t.addCell(cell);
+					}
+					cell=new PdfPCell(t);
+					table.addCell(cell);
+				}else {
+					cell=new PdfPCell( new Phrase(modules.get(i).getTitle()));
+					table.addCell(cell);
+					for(InscriptionModule it1:inscModule) {
+						cell=new PdfPCell(new Phrase(""+it1.getNote().getNoteFinal()));
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						table.addCell(cell);
+					}
+					
+				}
+				
 				for(InscriptionModule it1:inscModule) {
 					cell=new PdfPCell(new Phrase(""+it1.getNote().getNoteFinal()));
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					t.addCell(cell);
+					table.addCell(cell);
 				}
-				cell=new PdfPCell(t);
-				table.addCell(cell);
-				}
+			}
 			
 		}
 		PdfPCell cell= new PdfPCell(new Phrase("Moyenne Générale"));
