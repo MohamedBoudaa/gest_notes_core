@@ -59,7 +59,6 @@ public class MoyennesManagerImpl implements MoyennesManager{
 			}
 			
 			int i=0;
-			List<Double> listNote=new ArrayList();
 			for(List<InscriptionModule> it3:list) {
 				double noteF=0;
 				double somme=0;
@@ -69,8 +68,8 @@ public class MoyennesManagerImpl implements MoyennesManager{
 					somme+=note*coeff;
 				}
 				noteF=somme/nbrModule;
-				listNote.add(noteF);
-				result.get(i).setNoteFinal(noteF);
+				double noteFinale= (double) Math.round(noteF * 100) / 100;
+				result.get(i).setNoteFinal(noteFinale);
 				inscAdminDAO.update(result.get(i));
 				i++;
 			}
