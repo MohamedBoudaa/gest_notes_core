@@ -26,7 +26,6 @@ import com.dao.impl.InscPedagoDaoImpl;
 import com.dao.impl.MatiereDaoImpl;
 import com.dao.impl.ModuleDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -34,23 +33,25 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.TabStop;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.VerticalPositionMark;
-
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;  
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;  
 
 public class PDFCreator {
 
+	private static final EtudiantDaoImpl etuDAO = (EtudiantDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+	private static final InscAdminDaoImpl inscAdminDAO = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
+	private static final NiveauDaoImpl nivDAO= (NiveauDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_NIVEAU);
+	private static final MatiereDaoImpl matDAO=(MatiereDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MATIERE);
+	private static final ModuleDaoImpl modDAO=(ModuleDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MODULE);
+	private static final InscPedagoDaoImpl inscPedagDAO=(InscPedagoDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
+	private static final InscModuleDaoImpl inscModuleDAO=(InscModuleDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMODULE);
+	private static final InscMatiereDaoImpl inscMatiereDAO= (InscMatiereDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMATIERE);
+	private static final SearchManagerImpl search=new SearchManagerImpl();
+	
 	private static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 	private static String imgUae = classLoader.getResource("com/resources/uae.PNG").getPath();
 	private static String imgEnsah = classLoader.getResource("com/resources/ensah.PNG").getPath();
@@ -152,16 +153,6 @@ public class PDFCreator {
 		table.addCell(cell3);
 		table.addCell(cell4);
 		
-
-		EtudiantDaoImpl etuDAO = (EtudiantDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
-		InscAdminDaoImpl inscAdminDAO = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
-		NiveauDaoImpl nivDAO= (NiveauDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_NIVEAU);
-		MatiereDaoImpl matDAO=(MatiereDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MATIERE);
-		ModuleDaoImpl modDAO=(ModuleDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_MODULE);
-		InscPedagoDaoImpl inscPedagDAO=(InscPedagoDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
-		InscModuleDaoImpl inscModuleDAO=(InscModuleDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMODULE);
-		InscMatiereDaoImpl inscMatiereDAO= (InscMatiereDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCMATIERE);
-		SearchManagerImpl search=new SearchManagerImpl();
 		
 		List<Module> modules=modDAO.getModuleByNiveauOrderByS(niveau.getId());
 		

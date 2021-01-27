@@ -80,4 +80,30 @@ public class InscModuleDaoImpl extends HibernateGenericDao<Long, InscriptionModu
 		}
 		return list;
 	}
+	
+	public List<InscriptionModule> getInscriptionModuleByEtudiant(Long idIncPedago) {
+		List<InscriptionModule> list=null;
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+			
+			String hql = "from InscriptionModule where idInscPedago=:idI";
+			Query query = s.createQuery(hql);
+			query.setParameter("idI", idIncPedago);
+			list = (List<InscriptionModule>) query.list();
+			
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return list;
+	}
+	
 }

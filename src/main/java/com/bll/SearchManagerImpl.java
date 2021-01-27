@@ -15,14 +15,17 @@ import org.hibernate.query.Query;
 
 import com.bo.Etudiant;
 import com.bo.InscriptionModule;
+import com.bo.InscriptionPedagogique;
 import com.bo.Module;
 import com.bo.Niveau;
 import com.dao.DaoException;
 import com.dao.DaoFactory;
 import com.dao.ModuleDao;
 import com.dao.SessionFactoryBuilder;
+import com.dao.impl.EtudiantDaoImpl;
 import com.dao.impl.InscAdminDaoImpl;
 import com.dao.impl.InscModuleDaoImpl;
+import com.dao.impl.InscPedagoDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
 
 public class SearchManagerImpl implements SearchManager {
@@ -153,6 +156,26 @@ public class SearchManagerImpl implements SearchManager {
 		return modules;
 	}
 
+	public List<HashMap<String, String>> searchInscAdmin(Long niveau,Integer year) {
+
+		List<HashMap<String, String>> result = null;
+		result = inscAdminDao.getMoyenneAndEtudiantByNiveauYear(niveau,year);
+		
+		return result;
+	}
+	
+	public Long searchInscPedag(String cne,Integer year) {
+
+		EtudiantDaoImpl etuDao= (EtudiantDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+		InscPedagoDaoImpl inscPedagDao=(InscPedagoDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
+			
+		List<Etudiant> list=etuDao.getByCne(cne);
+		Etudiant e=list.get(0);
+		
+		InscriptionPedagogique inscPedag=inscPedagDao.getInscriptionPedagogique(e.getId(), year);
+	
+		return inscPedag.getId();
+	}
 	
 	public InscriptionModule getInscModuleByInscPedagoAndModule(Long idInscPedago,String idModule,Integer year){
 		

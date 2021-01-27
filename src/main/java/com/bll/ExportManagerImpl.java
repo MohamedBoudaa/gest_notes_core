@@ -25,23 +25,18 @@ import com.dao.impl.InscPedagoDaoImpl;
 import com.dao.impl.MatiereDaoImpl;
 import com.dao.impl.NiveauDaoImpl;
 
-public class ImportExportManagerImpl implements ImportExportManager {
+public class ExportManagerImpl implements ExportManager {
 
-
+	private static final EtudiantDaoImpl etuDAO = (EtudiantDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
+	private static final InscAdminDaoImpl inscAdminDAO = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
+	private static final NiveauDaoImpl nivDAO= (NiveauDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_NIVEAU);
+	private static final InscPedagoDaoImpl inscPedagDAO=(InscPedagoDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
+	private static final SearchManagerImpl search=new SearchManagerImpl();
 
 	public static File exportBulltinToPDF
 	(String cne ,int year ,String niveauTitle) throws ExportException {
 
-		EtudiantDaoImpl etuDAO = (EtudiantDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_ETUDIANT);
-		InscAdminDaoImpl inscAdminDAO = (InscAdminDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCADMIN);
-		NiveauDaoImpl nivDAO= (NiveauDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_NIVEAU);
-
-		InscPedagoDaoImpl inscPedagDAO=(InscPedagoDaoImpl) DaoFactory.getDaoFactory().getDao(DaoFactory.DAO_INSCPEDAGO);
-
-		SearchManagerImpl search=new SearchManagerImpl();
-
 		List<Etudiant> etudiants = etuDAO.getByCne(cne);
-
 
 		if( !etudiants.isEmpty() ) {
 
@@ -64,4 +59,5 @@ public class ImportExportManagerImpl implements ImportExportManager {
 			throw new ExportException("Etudiant introuvable");
 		}
 	}
+	
 }

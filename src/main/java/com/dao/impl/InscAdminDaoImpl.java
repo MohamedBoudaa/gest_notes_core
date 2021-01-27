@@ -204,7 +204,7 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 	}
 	public List<InscriptionAdministrative> getInscription(int year, Long idEtudiant,Long idNiveau ) {
 
-		List<InscriptionAdministrative> inscAdmin = null;
+		List<InscriptionAdministrative> list = null;
 		Session s=null;
 		Transaction tx = null;
 		try {
@@ -217,7 +217,7 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 			query.setParameter("idE", idEtudiant);
 			query.setParameter("idN", idNiveau);
 
-			inscAdmin = (List<InscriptionAdministrative>) query.list();
+			list = (List<InscriptionAdministrative>) query.list();
 
 
 		}catch (HibernateException ex) {
@@ -229,6 +229,103 @@ public class InscAdminDaoImpl extends HibernateGenericDao<Long, InscriptionAdmin
 		} finally {
 			ServicesDao.closeResources(s);
 		}
-		return inscAdmin;						
+		return list;						
+	}
+	
+	public List<InscriptionAdministrative> getInscriptionsByNiveau(int year, Long idNiveau ) {
+
+		List<InscriptionAdministrative> list = null;
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			String hql = "from InscriptionAdministrative where year=:y AND idNiveau=:idN";
+			Query query = s.createQuery(hql);
+			query.setParameter("y", year);
+			query.setParameter("idN", idNiveau);
+
+			list = (List<InscriptionAdministrative>) query.list();
+
+
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return list;						
+	}
+	
+	public List<InscriptionAdministrative> getInscriptionsByNiveauSortedByNote(int year, Long idNiveau ) {
+
+		List<InscriptionAdministrative> list = null;
+		Session s=null;
+		Transaction tx = null;
+		try {
+			s = SessionFactoryBuilder.getSessionFactory().getCurrentSession();
+			tx = s.beginTransaction();
+
+			String hql = "from InscriptionAdministrative where year=:y AND idNiveau=:idN ORDER BY noteFinal DESC";
+			Query query = s.createQuery(hql);
+			query.setParameter("y", year);
+			query.setParameter("idN", idNiveau);
+
+			list = (List<InscriptionAdministrative>) query.list();
+
+
+		}catch (HibernateException ex) {
+			LOGGER.debug("error due to :" + ex);	
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new DaoException(ex);
+		} finally {
+			ServicesDao.closeResources(s);
+		}
+		return list;						
+	}
+	
+	public List<HashMap<String, String>> getMoyenneAndEtudiantByNiveauYear(Long idNiveau, Integer year) {
+		HashMap<String, String> res = new HashMap<String, String>();
+		List<HashMap<String, String>> resultat = null;
+		Session s = null;
+		Transaction tx = null;
+		try {
+			s = super.sf.getCurrentSession();
+			tx = s.beginTransaction();
+			String hql = null;
+			Query query;
+			hql = "select e.firstname AS firstName ,e.secondName AS secondName,e.cne AS cne,i.noteFinal AS noteFinal,i.rank AS rank  "
+						+ "FROM Etudiant e, InscriptionAdministrative i "
+						+ "INNER JOIN Niveau n ON (i.etudiant.id = e.id) "
+						+ "WHERE i.niveau.id = :idNiveau AND n.id = :idNiveau AND i.year = :year" + " GROUP BY e.id ";
+			query = s.createQuery(hql);
+			query.setParameter("idNiveau", idNiveau);
+			query.setParameter("year", year);
+			
+			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			resultat = query.list();
+
+		} catch (HibernateException e) {
+
+			if (tx != null) {
+				tx.rollback();
+			}
+
+			throw new DaoException(e);
+
+		} finally {
+
+			if (s != null && s.isOpen()) {
+				s.close();
+			}
+
+		}
+		return resultat;
 	}
 }
