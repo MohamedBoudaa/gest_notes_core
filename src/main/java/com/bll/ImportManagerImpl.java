@@ -244,7 +244,7 @@ public class ImportManagerImpl implements ImportManager {
 			checkRegisteredStudentsByModule(allStudents, module, year);
 			
 			// import notes
-			LOGGER.println("Verification avec succès !!\n Debut de l'importation des notes...");
+			LOGGER.println("Verification avec succes !!\n Debut de l'importation des notes...");
 			for (int i = 0; i < allStudents.size(); i++) {
 				if(notes.get(i) == null) {
 					allStudents.add(i, null);
@@ -262,7 +262,7 @@ public class ImportManagerImpl implements ImportManager {
 				
 				
 			}
-			LOGGER.println("Importation des notes avec succès");
+			LOGGER.println("Importation des notes avec succes");
 
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "erreur : " + e.getMessage());
