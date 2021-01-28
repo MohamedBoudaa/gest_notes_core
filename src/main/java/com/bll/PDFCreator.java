@@ -102,7 +102,7 @@ public class PDFCreator {
 		table.setLockedWidth(true);
 		table.setSpacingAfter(5f);
 		
-		PdfPCell cell= new PdfPCell( new Phrase("Bulletin annuel\n" +niveau.getLabel()+"\nAnnée universitaire : "+ year+"-"+year+1,
+		PdfPCell cell= new PdfPCell( new Phrase("Bulletin annuel\n" +niveau.getLabel()+"\nAnnée universitaire : "+ year+"-"+(year+1),
 				new Font(Font.FontFamily.HELVETICA, 13)) );
 		cell.setBorder(Rectangle.NO_BORDER);
     	cell.setFixedHeight(50);
